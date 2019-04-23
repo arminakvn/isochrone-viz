@@ -1,5 +1,9 @@
  <template>
 <div id="map"></div>
+<nav>
+  <input type='checkbox' id='scrollZoom' checked='checked'>
+<label for='scrollZoom'>Scroll zoom</label>
+</nav>
 
 </template>
 
@@ -13,7 +17,7 @@ export default {
   
   data: function(){
     return {
-      baseurl:"http://localhost:8003/isochrone?point=",
+      baseurl:"http://10.10.10.249:8000/isochrone?point=",
       apoint:[42.355278,-71.0616],
       urlopts:"&vehicle=mapcrider2&buckets=4&distance_limit=4000" //  
     }
@@ -93,8 +97,8 @@ export default {
                     'layout': {},
                     'paint': {
                     'fill-color': '#b5b5b5',
-                    'fill-outline-color': '#fff9f9',
-                    'fill-opacity': 0.15
+                    'fill-outline-color': '#fcd402',
+                    'fill-opacity': 0.25
                     }
                     
                   })
@@ -109,8 +113,8 @@ export default {
                     'layout': {},
                     'paint': {
                     'fill-color': '#919496',
-                    'fill-outline-color': '#cccccc',
-                    'fill-opacity': 0.2
+                    'fill-outline-color': '#f9d931',
+                    'fill-opacity': 0.25
                     }
                     
                   })
@@ -125,10 +129,10 @@ export default {
                     },
                     'layout': {},
                     'paint': {
-                      'fill-outline-color': 'black',
+                      // 'fill-outline-color': 'black',
                     'fill-color': '#515151',
-                    'fill-outline-color': '#9ba1a5',
-                    'fill-opacity': 0.3
+                    'fill-outline-color': '#ffe663',
+                    'fill-opacity': 0.35
                     }
                     
                   })
@@ -143,9 +147,9 @@ export default {
                     'layout': {},
                     'paint': {
                     'fill-color': '#424242',
-                      'fill-outline-color': '#515151',
+                      'fill-outline-color': '#ddd4a6',
                     // 'fill-outline-opacity':  0.5,
-                    'fill-opacity': 0.4
+                    'fill-opacity': 0.35
                     }
                     
                   })
