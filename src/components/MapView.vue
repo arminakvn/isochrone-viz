@@ -13,9 +13,9 @@ export default {
   
   data: function(){
     return {
-      baseurl:"http://10.10.10.249:8003/isochrone?point=",
+      baseurl:"http://localhost:8003/isochrone?point=",
       apoint:[42.355278,-71.0616],
-      urlopts:"&vehicle=mapcrider2&buckets=5&time_limit=600" //  
+      urlopts:"&vehicle=mapcrider2&buckets=4&distance_limit=4000" //  
     }
   },
   methods: {
@@ -64,6 +64,12 @@ export default {
       self.map.removeLayer('bucket4')
       self.map.removeSource('bucket4')
       }
+      // let mapLayer5 = self.map.getLayer('bucket5');
+      // if(typeof mapLayer5 !== 'undefined') {
+      // // Remove map layer & source.
+      // self.map.removeLayer('bucket5')
+      // self.map.removeSource('bucket5')
+      // }
       
 
       // console.log(features)
@@ -88,7 +94,7 @@ export default {
                     'paint': {
                     'fill-color': '#b5b5b5',
                     'fill-outline-color': '#fff9f9',
-                    'fill-opacity': 0.6
+                    'fill-opacity': 0.15
                     }
                     
                   })
@@ -104,7 +110,7 @@ export default {
                     'paint': {
                     'fill-color': '#919496',
                     'fill-outline-color': '#cccccc',
-                    'fill-opacity': 0.5
+                    'fill-opacity': 0.2
                     }
                     
                   })
@@ -122,7 +128,7 @@ export default {
                       'fill-outline-color': 'black',
                     'fill-color': '#515151',
                     'fill-outline-color': '#9ba1a5',
-                    'fill-opacity': 0.5
+                    'fill-opacity': 0.3
                     }
                     
                   })
@@ -139,10 +145,30 @@ export default {
                     'fill-color': '#424242',
                       'fill-outline-color': '#515151',
                     // 'fill-outline-opacity':  0.5,
-                    'fill-opacity': 0.5
+                    'fill-opacity': 0.4
                     }
                     
                   })
+
+
+                  // self.map.addLayer({
+                  //   'id': 'bucket5',
+                  //   'type': 'fill',
+                  //   'source': {
+                  //   'type': 'geojson',
+                  //   'data': d[0].polygons[4]
+                  //   },
+                  //   'layout': {},
+                  //   'paint': {
+                  //   'fill-color': '#424242',
+                  //     'fill-outline-color': '#515151',
+                  //   // 'fill-outline-opacity':  0.5,
+                  //   'fill-opacity': 0.3
+                  //   }
+                    
+                  // })
+
+
                 })
 
 
@@ -200,5 +226,8 @@ position: absolute;
 top: 0;
 bottom: 0;
 width: 100%;
+}
+.marker {
+  transform: translate(-50%, -50%) ;
 }
 </style>
