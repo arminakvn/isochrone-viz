@@ -187,11 +187,7 @@ export default {
                                 url => d3.json(url)
                         )
                 ).then(function(d) {
-                  d[0].polygons[0]['properties']["title"] = "15 MINUTES"
-                  d[0].polygons[1]['properties']["title"] = "30 MINUTES"
-                  d[0].polygons[2]['properties']["title"] = "45 MINUTES"
-                  d[0].polygons[3]['properties']["title"] = "60 MINUTES"
-                  console.log("ddd",d[0].polygons[3])
+                  console.log("ddd")
                   
                   self.map.addLayer({
                     'id': 'bucket1',
@@ -259,112 +255,6 @@ export default {
                     }
                     
                   })
-                    let titlesLayer3 = {
-                        'id': 'symbols3',
-                        'type': 'symbol',
-                        'source': {
-                            'type': 'geojson',
-                            // 'data': {
-                            //     'type': 'FeatureCollection',
-                            //     'features': dateArr
-                            // }
-                            'data': d[0].polygons[3]
-                        },
-                        "layout": {
-                            "symbol-placement": "point",
-                            "text-font": ["Open Sans Regular"],
-                            "icon-allow-overlap":true,
-                            "text-field": '{title}', // part 2 of this is how to do it
-                            "text-size": 18,
-                            "text-anchor":  "top",
-                        },
-                        "paint": {
-                "text-color": "#202",
-                "text-halo-color": "#fff",
-                "text-halo-width": 1
-            },
-                    } 
-                    let titlesLayer2 = {
-                        'id': 'symbols2',
-                        'type': 'symbol',
-                        'source': {
-                            'type': 'geojson',
-                            // 'data': {
-                            //     'type': 'FeatureCollection',
-                            //     'features': dateArr
-                            // }
-                            'data': d[0].polygons[2]
-                        },
-                        "layout": {
-                            "symbol-placement": "point",
-                            "text-font": ["Open Sans Regular"],
-                            "icon-allow-overlap":true,
-                            "text-field": '{title}', // part 2 of this is how to do it
-                            "text-size": 18,
-                            "text-anchor":  "top",
-                        },
-                        "paint": {
-                "text-color": "#202",
-                "text-halo-color": "#fff",
-                "text-halo-width": 1
-            },
-                    } 
-                    let titlesLayer1 = {
-                        'id': 'symbols1',
-                        'type': 'symbol',
-                        'source': {
-                            'type': 'geojson',
-                            // 'data': {
-                            //     'type': 'FeatureCollection',
-                            //     'features': dateArr
-                            // }
-                            'data': d[0].polygons[1]
-                        },
-                        "layout": {
-                            "symbol-placement": "point",
-                            "text-font": ["Open Sans Regular"],
-                            "icon-allow-overlap":true,
-                            "text-field": '{title}', // part 2 of this is how to do it
-                            "text-size": 18,
-                            "text-anchor":  "top",
-                        },
-                        "paint": {
-                "text-color": "#202",
-                "text-halo-color": "#fff",
-                "text-halo-width": 1
-            },
-                    } 
-
-let titlesLayer0 = {
-                        'id': 'symbols0',
-                        'type': 'symbol',
-                        'source': {
-                            'type': 'geojson',
-                            // 'data': {
-                            //     'type': 'FeatureCollection',
-                            //     'features': dateArr
-                            // }
-                            'data': d[0].polygons[0]
-                        },
-                        "layout": {
-                            "symbol-placement": "point",
-                            "text-font": ["Open Sans Regular"],
-                            "icon-allow-overlap":true,
-                            "text-field": '{title}', // part 2 of this is how to do it
-                            "text-size": 18,
-                            "text-anchor":  "top",
-                        },
-                        "paint": {
-                "text-color": "#202",
-                "text-halo-color": "#fff",
-                "text-halo-width": 1
-            },
-                    } 
-
-                    self.map.addLayer(titlesLayer3)
-                    self.map.addLayer(titlesLayer2)
-                    self.map.addLayer(titlesLayer1)
-                    self.map.addLayer(titlesLayer0)
 
 
                   // self.map.addLayer({

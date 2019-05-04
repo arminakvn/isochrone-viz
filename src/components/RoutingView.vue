@@ -54,7 +54,7 @@ methods: {
                 let lineScale = d3.scalePow()
                                 .range([2,15]);
                 // let encoderFlg = "racingbike";
-                files.push("http://localhost:8989/route?point="+latlng[0]["lat"]+"%2C"+latlng[0]["lng"]+"&point="+latlng[1]["lat"]+"%2C"+latlng[1]["lng"]+"&locale=en-US&ch.disable=true&vehicle=mapcrider2&weighting=fastest&points_encoded=false&elevation=true&algorithm=alternative_route&alternative_route.max_paths=" + num_of_alterntves +"&use_miles=true$details=distance&details=edge_id&details=average_speed&details=facilities_overal&details=weight_value")
+                files.push("http://localhost:8989/route?point="+latlng[0]["lat"]+"%2C"+latlng[0]["lng"]+"&point="+latlng[1]["lat"]+"%2C"+latlng[1]["lng"]+"&locale=en-US&ch.disable=true&vehicle=mapcrider2&weighting=fastest&points_encoded=false&elevation=true&algorithm=alternative_route&alternative_route.max_paths=" + num_of_alterntves +"&use_miles=true$details=distance&details=edge_id&details=average_speed&details=facilities_overal&details=weight_value&details=time&details=street_name")
                 console.log("files: ", files)
                 Promise.all(
                                 files.map(
@@ -244,8 +244,10 @@ methods: {
                                         d[joz]["paths"][i]["details"]["weight_value"].forEach(function(event){
                                                 let event_from_id = event[0];
                                                 let event_to_id = event[1];
-                                                let aver_spd = "sp="
-                                                let foevent = "f="
+                                                let aver_spd = ""
+                                                let foevent = ""
+                                                let segtime = ""
+                                                let stname = ""
                                                 
 
                                                 // find the average_speed interval and get the value of that
@@ -256,6 +258,30 @@ methods: {
                                                         if (event_from_id >= from_id && event_from_id <= to_id){
                                                                 if (event_to_id >=from_id && event_to_id <= to_id){
                                                                         aver_spd = aver_spd + a_s_event[2]
+                                                                        // console.log("event_from_id ", event_from_id,"event_to_id", event_to_id,"from_id",from_id,"to_id",to_id)
+
+                                                                }
+                                                        }
+                                                })
+
+                                                d[joz]["paths"][i]["details"]["time"].forEach(function (a_t_event) {
+                                                        let from_id = a_t_event[0]
+                                                        let to_id = a_t_event[1]
+                                                        if (event_from_id >= from_id && event_from_id <= to_id){
+                                                                if (event_to_id >=from_id && event_to_id <= to_id){
+                                                                        segtime = segtime + a_t_event[2]
+                                                                        // console.log("event_from_id ", event_from_id,"event_to_id", event_to_id,"from_id",from_id,"to_id",to_id)
+
+                                                                }
+                                                        }
+                                                })
+
+                                                d[joz]["paths"][i]["details"]["street_name"].forEach(function (s_n_event) {
+                                                        let from_id = s_n_event[0]
+                                                        let to_id = s_n_event[1]
+                                                        if (event_from_id >= from_id && event_from_id <= to_id){
+                                                                if (event_to_id >=from_id && event_to_id <= to_id){
+                                                                        stname = stname + s_n_event[2]
                                                                         // console.log("event_from_id ", event_from_id,"event_to_id", event_to_id,"from_id",from_id,"to_id",to_id)
 
                                                                 }
@@ -298,7 +324,7 @@ methods: {
                                                                         'color': c,
                                                                         'width': lineScale(weight_val / Math.round(foevent.split(" | ")[3])),
                                                                         'opacity': 0.8- (i * .3),
-                                                                        'title': "w=" + Math.round(weight_val)+aver_spd+foevent
+                                                                        'title': stname+"|weight=" + Math.round(weight_val)+"|time="+Math.round(segtime/1000)+"s"+"|average_speed="+aver_spd+"km/hr|surface="+foevent.split(" | ")[0]+"|class="+foevent.split(" | ")[1]+"|reverse_speed="+foevent.split(" | ")[2]+"|distance="+foevent.split(" | ")[3]+"m|"+foevent.split(" | ")[4]+" stress"
 
                                                                 },
                                                                 'geometry':{
