@@ -1,14 +1,19 @@
  <template>
-<div id="map"></div>
-<nav>
+
+  <div id="map">
+  <!-- <div id="mapholder"></div> -->
+<!-- <nav>
   <input type='checkbox' id='scrollZoom' checked='checked'>
 <label for='scrollZoom'>Scroll zoom</label>
-</nav>
+</nav> -->
+    
+  </div>
 
 </template>
 
 <script>
   import * as mapboxgl from 'mapbox-gl'
+  // import MapController from './MapController.vue'
   // require('mapbox-gl/dist/mapbox-gl.css')
   import * as d3 from 'd3'
 
@@ -17,14 +22,111 @@ export default {
   
   data: function(){
     return {
-      baseurl:"http://10.10.10.249:8001/isochrone?point=",
+      // markers: [],
+      mode:"isochrone",
+      baseurl:"http://localhost:8989/isochrone?point=",
       apoint:[42.355278,-71.0616],
-      urlopts:"&vehicle=mapcrider2&buckets=4&distance_limit=4000" //  
+      secpoint:[42.355978,-71.0816],
+      urlopts:"&vehicle=mapcrider2&buckets=4&time_limit=600" //  distance_limit=4000
     }
   },
+  computed: {
+    map: function(){
+      let self = this;
+      mapboxgl.accessToken = 'pk.eyJ1IjoiYXJtaW5hdm4iLCJhIjoiSTFteE9EOCJ9.iDzgmNaITa0-q-H_jw1lJw';
+      let map = new mapboxgl.Map({
+                    container: self.$el,
+                    style: 'mapbox://styles/arminavn/cjg2o1xyt08gn2rqocqpyq4k6', //// 'mapbox://styles/arminavn/cjolq7bui0wjm2spp1bfrozbi', //'mapbox://styles/arminavn/cj8xnnjkycd4o2ss9c2rofh9p',
+                    center: [-71.068964, 42.347643],
+                    zoom: 14
+                });
+                return map
+    },
+    mapMarker: function(){
+      // console.log("inside update mode clicked mapMarker")
+      // let self = this;
+      // let markers = [];
+      
+      // // self.map.removeLayer(self.marker)
+      
+      // if (self.$attrs.mode == "isochrone"){
+      //                   let marker1 = new mapboxgl.Marker({
+      //                   draggable: true
+      //               })
+      //                   .setLngLat([self.apoint[1],self.apoint[0]])
+      //                   .addTo(self.map);
+      //               // marker.on('dragend', self.onDragEnd);
+      //               markers.push(marker1)
+                    
+                    
+      // } else if (self.$attrs.mode == "routing"){
+      //   let marker1 = new mapboxgl.Marker({
+      //                   draggable: true
+      //               })
+      //                   .setLngLat([self.apoint[1],self.apoint[0]])
+      //                   //.addTo(self.map);
+      //               // marker.on('dragend', self.onDragEnd);
+      //               markers.push(marker1)
+      //   let marker2 = new mapboxgl.Marker({
+      //       draggable: true
+      //   })
+      //   .setLngLat([self.secpoint[1],self.secpoint[0]])
+      //   markers.push(marker2)
+      // }
+      // // self.markers = markers
+      // return markers
+
+    }
+  },
+  // watch: {
+  //   'onModeChange': function(){
+  //     alert('active-metrics updated');
+  //   }
+  // },
   methods: {
+    onModeChange: function(){
+      
+      console.log("inside update mode clicked")
+      let self = this;
+       if (self.$attrs.mode == "isochrone"){{
+         console.log("it snow isochrone so i t was routing? before?")
+         
+         self.markers.forEach(mrkr => {
+          //  self.map.removeLayer(mrkr)
+         });
+       }
+       self.markers = self.mapMarker
+      // let markers = [];
+      // // self.map.removeLayer(self.marker)
+      // if (self.$attrs.mode == "isochrone"){
+      //                   let marker1 = new mapboxgl.Marker({
+      //                   draggable: true
+      //               })
+      //                   .setLngLat([self.apoint[1],self.apoint[0]])
+      //                   //.addTo(self.map);
+      //               // marker.on('dragend', self.onDragEnd);
+      //               markers.push(marker1)
+                    
+      // } else if (self.$attrs.mode == "routing"){
+      //   let marker1 = new mapboxgl.Marker({
+      //                   draggable: true
+      //               })
+      //                   .setLngLat([self.apoint[1],self.apoint[0]])
+      //                   //.addTo(self.map);
+      //               // marker.on('dragend', self.onDragEnd);
+      //               markers.push(marker1)
+      //   let marker2 = new mapboxgl.Marker({
+      //       draggable: true
+      //   })
+      //   .setLngLat([self.secpoint[1],self.secpoint[0]])
+      //   markers.push(marker2)
+      // }
+      // return markers
+}
+    },
     onDragEnd: function() {
                 let self = this;
+                
                 let lngLat = self.marker.getLngLat();
                 // coordinates.style.display = 'block';
                 // coordinates.innerHTML = 'Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat;
@@ -85,7 +187,11 @@ export default {
                                 url => d3.json(url)
                         )
                 ).then(function(d) {
-                  console.log(d)
+                  d[0].polygons[0]['properties']["title"] = "15 MINUTES"
+                  d[0].polygons[1]['properties']["title"] = "30 MINUTES"
+                  d[0].polygons[2]['properties']["title"] = "45 MINUTES"
+                  d[0].polygons[3]['properties']["title"] = "60 MINUTES"
+                  console.log("ddd",d[0].polygons[3])
                   
                   self.map.addLayer({
                     'id': 'bucket1',
@@ -153,6 +259,112 @@ export default {
                     }
                     
                   })
+                    let titlesLayer3 = {
+                        'id': 'symbols3',
+                        'type': 'symbol',
+                        'source': {
+                            'type': 'geojson',
+                            // 'data': {
+                            //     'type': 'FeatureCollection',
+                            //     'features': dateArr
+                            // }
+                            'data': d[0].polygons[3]
+                        },
+                        "layout": {
+                            "symbol-placement": "point",
+                            "text-font": ["Open Sans Regular"],
+                            "icon-allow-overlap":true,
+                            "text-field": '{title}', // part 2 of this is how to do it
+                            "text-size": 18,
+                            "text-anchor":  "top",
+                        },
+                        "paint": {
+                "text-color": "#202",
+                "text-halo-color": "#fff",
+                "text-halo-width": 1
+            },
+                    } 
+                    let titlesLayer2 = {
+                        'id': 'symbols2',
+                        'type': 'symbol',
+                        'source': {
+                            'type': 'geojson',
+                            // 'data': {
+                            //     'type': 'FeatureCollection',
+                            //     'features': dateArr
+                            // }
+                            'data': d[0].polygons[2]
+                        },
+                        "layout": {
+                            "symbol-placement": "point",
+                            "text-font": ["Open Sans Regular"],
+                            "icon-allow-overlap":true,
+                            "text-field": '{title}', // part 2 of this is how to do it
+                            "text-size": 18,
+                            "text-anchor":  "top",
+                        },
+                        "paint": {
+                "text-color": "#202",
+                "text-halo-color": "#fff",
+                "text-halo-width": 1
+            },
+                    } 
+                    let titlesLayer1 = {
+                        'id': 'symbols1',
+                        'type': 'symbol',
+                        'source': {
+                            'type': 'geojson',
+                            // 'data': {
+                            //     'type': 'FeatureCollection',
+                            //     'features': dateArr
+                            // }
+                            'data': d[0].polygons[1]
+                        },
+                        "layout": {
+                            "symbol-placement": "point",
+                            "text-font": ["Open Sans Regular"],
+                            "icon-allow-overlap":true,
+                            "text-field": '{title}', // part 2 of this is how to do it
+                            "text-size": 18,
+                            "text-anchor":  "top",
+                        },
+                        "paint": {
+                "text-color": "#202",
+                "text-halo-color": "#fff",
+                "text-halo-width": 1
+            },
+                    } 
+
+let titlesLayer0 = {
+                        'id': 'symbols0',
+                        'type': 'symbol',
+                        'source': {
+                            'type': 'geojson',
+                            // 'data': {
+                            //     'type': 'FeatureCollection',
+                            //     'features': dateArr
+                            // }
+                            'data': d[0].polygons[0]
+                        },
+                        "layout": {
+                            "symbol-placement": "point",
+                            "text-font": ["Open Sans Regular"],
+                            "icon-allow-overlap":true,
+                            "text-field": '{title}', // part 2 of this is how to do it
+                            "text-size": 18,
+                            "text-anchor":  "top",
+                        },
+                        "paint": {
+                "text-color": "#202",
+                "text-halo-color": "#fff",
+                "text-halo-width": 1
+            },
+                    } 
+
+                    self.map.addLayer(titlesLayer3)
+                    self.map.addLayer(titlesLayer2)
+                    self.map.addLayer(titlesLayer1)
+                    self.map.addLayer(titlesLayer0)
 
 
                   // self.map.addLayer({
@@ -183,27 +395,37 @@ export default {
   mounted(){
             let self = this;
             let files = [];
-            files.push("")
+            console.log("self.$el", self.$el)
+            console.log(self)
+            // files.push("")
             // this.$nextTick(() => {
-                mapboxgl.accessToken = 'pk.eyJ1IjoiYXJtaW5hdm4iLCJhIjoiSTFteE9EOCJ9.iDzgmNaITa0-q-H_jw1lJw';
-                self.map = new mapboxgl.Map({
-                    container: self.$el,
-                    style: 'mapbox://styles/arminavn/cjg2o1xyt08gn2rqocqpyq4k6', //// 'mapbox://styles/arminavn/cjolq7bui0wjm2spp1bfrozbi', //'mapbox://styles/arminavn/cj8xnnjkycd4o2ss9c2rofh9p',
-                    center: [-71.068964, 42.347643],
-                    zoom: 14
-                });
+                
+                // self.map = new mapboxgl.Map({
+                //     container: self.$el,
+                //     style: 'mapbox://styles/arminavn/cjg2o1xyt08gn2rqocqpyq4k6', //// 'mapbox://styles/arminavn/cjolq7bui0wjm2spp1bfrozbi', //'mapbox://styles/arminavn/cj8xnnjkycd4o2ss9c2rofh9p',
+                //     center: [-71.068964, 42.347643],
+                //     zoom: 14
+                // });
                 // self.getGeoJson()
 
-                self.map.on('load', function() {
-
-                  self.marker = new mapboxgl.Marker({
+                self.map.on('style.load', function() {
+                  console.log("sefl",self)
+                  self.markers = []
+                  if (self.$attrs.mode == "isochrone"){
+                        self.marker = new mapboxgl.Marker({
                         draggable: true
                     })
                         .setLngLat([self.apoint[1],self.apoint[0]])
                         .addTo(self.map);
                     self.marker.on('dragend', self.onDragEnd);
+                    
+                  }
+                  self.markers.push(self.marker)
+                  
 
                 })
+                self.$emit('updateMap',self.map)
+                
   }   
 }
 </script>
