@@ -54,7 +54,7 @@ methods: {
                 let lineScale = d3.scalePow()
                                 .range([2,15]);
                 // let encoderFlg = "racingbike";
-                files.push("http://10.10.10.249:8000/route?point="+latlng[0]["lat"]+"%2C"+latlng[0]["lng"]+"&point="+latlng[1]["lat"]+"%2C"+latlng[1]["lng"]+"&locale=en-US&ch.disable=true&vehicle=mapcrider2&weighting=fastest&points_encoded=false&elevation=true&algorithm=alternative_route&alternative_route.max_paths=" + num_of_alterntves +"&use_miles=true$details=distance&details=edge_id&details=average_speed&details=facilities_overal&details=weight_value&details=time&details=street_name")
+                files.push("http://localhost:8989/route?point="+latlng[0]["lat"]+"%2C"+latlng[0]["lng"]+"&point="+latlng[1]["lat"]+"%2C"+latlng[1]["lng"]+"&locale=en-US&ch.disable=true&vehicle=mapcrider2&weighting=fastest&points_encoded=false&elevation=true&algorithm=alternative_route&alternative_route.max_paths=" + num_of_alterntves +"&use_miles=true$details=distance&details=edge_id&details=average_speed&details=facilities_overal&details=weight_value&details=time&details=street_name")
                 console.log("files: ", files)
                 Promise.all(
                                 files.map(
