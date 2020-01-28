@@ -19,7 +19,7 @@ export default {
     computed: {
     map: function(){
       let self = this;
-      console.log(" self.$el",  self.$el)
+      
       mapboxgl.accessToken = 'pk.eyJ1IjoiYXJtaW5hdm4iLCJhIjoiSTFteE9EOCJ9.iDzgmNaITa0-q-H_jw1lJw';
       let map = new mapboxgl.Map({
                     container: self.$el,
@@ -38,8 +38,7 @@ methods: {
                 let lngLat2 = self.marker2.getLngLat();
                 // coordinates.style.display = 'block';
                 // coordinates.innerHTML = 'Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat;
-                console.log(lngLat1.lng.toString(),lngLat1.lat.toString())
-                console.log(lngLat2.lng.toString(),lngLat2.lat.toString())
+                
                 // self.$parent.props.apoint = lngLat
                 // this.currentRoute = this.$route.params.route;
                 self.$emit('updateFromTo',[lngLat1, lngLat2])
@@ -47,7 +46,7 @@ methods: {
             },
             getGeoJson: function(latlng){
                 const self = this;
-                console.log(self.$attrs["fromToPoints"])
+                
                 let files=[]
                 let encoderFlg = "mapcrider2";
                 let num_of_alterntves = 3;
@@ -55,7 +54,7 @@ methods: {
                                 .range([2,15]);
                 // let encoderFlg = "racingbike";
                 files.push("http://localhost:8989/route?point="+latlng[0]["lat"]+"%2C"+latlng[0]["lng"]+"&point="+latlng[1]["lat"]+"%2C"+latlng[1]["lng"]+"&locale=en-US&ch.disable=true&vehicle=mapcrider2&weighting=fastest&points_encoded=false&elevation=true&algorithm=alternative_route&alternative_route.max_paths=" + num_of_alterntves +"&use_miles=true$details=distance&details=edge_id&details=average_speed&details=facilities_overal&details=weight_value&details=time&details=street_name")
-                console.log("files: ", files)
+                
                 Promise.all(
                                 files.map(
                                         url => d3.json(url)
@@ -83,147 +82,7 @@ methods: {
                                         ["darkgreen","lightgreen"]
                                 ];
                                 let weight_range = [];
-                        //         for (let jo = 0; jo < files.length; jo++) {
-                        //         for (let j = 0; j < num_of_alterntves; j++) {
-                        //             console.log(d[jo]["paths"][j]) 
-                        //                 dataitems.push(d[jo]["paths"][j]) 
-
-                        //                 let total_weight =d[jo]["paths"][j]["weight"];
-                        //                 let total_distance =d[jo]["paths"][j]["distance"];
-                        //                 let starts_from_lon = d[jo]["paths"][j]["points"]["coordinates"][0][0]
-                        //                 let starts_from_lat = d[jo]["paths"][j]["points"]["coordinates"][0][1]
-                        //                 //anchorArr[joz]
-                        //                 waypointArr.push(
-
-                        //                         {
-                        //                                 'type': 'Feature',
-                        //                                 'properties': {
-                        //                                         // 'total_weight': "total weight: " + Math.round(total_weight),
-                        //                                         // 'total_distance':total_distance,
-                        //                                         // // 'color': color(i),
-                        //                                         // // 'width': lineScale(weight_val),
-                        //                                         'opacity': 0.7 - (j * .2),
-                        //                                         // 'title': aver_spd
-
-                        //                                 },
-                        //                                 'geometry': d[jo]["paths"][j]["snapped_waypoints"]
-                        //                         }
-                        //                 )
-                        //                 anchorArr.push(
-                        //                         {
-                        //                                 'type': 'Feature',
-                        //                                 'properties': {
-                        //                                         'total_weight': "" + Math.round(total_weight),
-                        //                                         'total_distance':total_distance,
-                        //                                         // 'color': color(i),
-                        //                                         // 'width': lineScale(weight_val),
-                        //                                         'opacity': 0.7 - (j * .2),
-                        //                                         // 'title': aver_spd
-
-                        //                                 },
-                        //                                 'geometry': d[jo]["paths"][j]["points"]
-                        //                         }
-
-
-
-                        //                 )
-                        //                 let temp_inde = 0
-                        //                 d[jo]["paths"][j]["details"]["weight_value"].forEach(function (event) {
-                        //                          let dist_seg = d[jo]["paths"][j]["details"]["facilities_overal"][temp_inde]
-                        //                         weight_range.push(event[2] / Math.round(dist_seg[2].split(" | ")[3]))
-                        //                         console.log(event[2] / Math.round(dist_seg[2].split(" | ")[3]))
-                        //                         temp_inde++
-                        //                 })
-                        //         }
-                        // }
-                        // self.items = dataitems;
-                        // let dataDomain = d3.extent(weight_range);
-                        // lineScale.domain(dataDomain);
-                        // console.log("extent",dataDomain);
-                        // for (let joz = 0; joz < files.length; joz++) {
-
-                        //         let color = d3.scaleLinear()
-                        //                 .domain([0, files.length])
-                        //                 .range(colors[joz])
-                        //                 .interpolate(d3.interpolateHcl);
-                        //         for (let i = 0; i < num_of_alterntves; i++) {
-                        //                 let temp_inde = 0
-                        //                 d[joz]["paths"][i]["details"]["weight_value"].forEach(function(event){
-                        //                         let dist_seg = d[joz]["paths"][i]["details"]["facilities_overal"][temp_inde]
-                        //                         weight_range.push(event[2] / Math.round(dist_seg[2].split(" | ")[3]))
-                        //                         console.log(event[2] / Math.round(dist_seg[2].split(" | ")[3]))
-                        //                         temp_inde++
-                        //                 })
-                        //                 console.log(d[joz]["paths"][i]["details"]["average_speed"]);
-                        //                 console.log(d[joz]["paths"][i]["details"]["weight_value"]);
-                        //                 d[joz]["paths"][i]["details"]["weight_value"].forEach(function(event){
-                        //                         let event_from_id = event[0];
-                        //                         let event_to_id = event[1];
-                        //                         let aver_spd = "sp="
-                        //                         let foevent = "f="
-                                                
-
-                        //                         // find the average_speed interval and get the value of that
-                        //                         // for each interval pair from the average_speeds details check the events from and to id
-                        //                         d[joz]["paths"][i]["details"]["average_speed"].forEach(function (a_s_event) {
-                        //                                 let from_id = a_s_event[0]
-                        //                                 let to_id = a_s_event[1]
-                        //                                 if (event_from_id >= from_id && event_from_id <= to_id){
-                        //                                         if (event_to_id >=from_id && event_to_id <= to_id){
-                        //                                                 aver_spd = aver_spd + a_s_event[2]
-                        //                                                 // console.log("event_from_id ", event_from_id,"event_to_id", event_to_id,"from_id",from_id,"to_id",to_id)
-
-                        //                                         }
-                        //                                 }
-                        //                         })
-
-
-                        //                         d[joz]["paths"][i]["details"]["facilities_overal"].forEach(function (f_s_event) {
-                        //                                 let from_id = f_s_event[0]
-                        //                                 let to_id = f_s_event[1]
-
-                        //                                 if (event_from_id >= from_id && event_from_id <= to_id){
-                        //                                         if (event_to_id >=from_id && event_to_id <= to_id){
-                        //                                                 foevent = foevent + f_s_event[2]
-                        //                                                 // console.log("event_from_id ", event_from_id,"event_to_id", event_to_id,"from_id",from_id,"to_id",to_id)
-
-                        //                                         }
-                        //                                 }
-                        //                         })
-
-                        //                         let fromlon = d[joz]["paths"][i]["points"]["coordinates"][event[0]][0]
-                        //                         let fromlat = d[joz]["paths"][i]["points"]["coordinates"][event[0]][1]
-                        //                         let tolon = d[joz]["paths"][i]["points"]["coordinates"][event[1]][0]
-                        //                         let tolat = d[joz]["paths"][i]["points"]["coordinates"][event[1]][1]
-                        //                         let weight_val = event[2]
-                        //                         // ancG["geometry"]["coordinates"].push([[fromlon,fromlat],[tolon,tolat]])
-                        //                         console.log(Math.round(foevent.split(" | ")[3]))
-                        //                         console.log((weight_val / Math.round(foevent.split(" | ")[3])))
-                        //                         if (foevent.split(" | ")[4] == "low") {
-                        //                                 var c = "green"//"green"
-                        //                         } else if (foevent.split(" | ")[4] == "high") {
-                        //                                 var c = "red"//"red"
-                        //                         } else {
-                        //                                 var c = "green"
-                        //                         }
-                        //                         dateArr.push(
-                        //                                 {
-                        //                                         'type': 'Feature',
-                        //                                         'properties': {
-                        //                                                 'color': c,
-                        //                                                 'width': lineScale(weight_val / Math.round(foevent.split(" | ")[3])),
-                        //                                                 'opacity': 0.8- (i * .8),
-                        //                                                 'title': "w=" + Math.round(weight_val)+aver_spd+foevent
-
-                        //                                         },
-                        //                                         'geometry':{
-                        //                                                 'type': 'LineString',
-                        //                                                 'coordinates': [[fromlon,fromlat],[tolon,tolat]]
-                        //                                         }}
-                        //                                         )
-                        //                 })
-                        //         }
-                        // }
+                        
                         for (let joz = 0; joz < files.length; joz++) {
 
                                 let color = d3.scaleLinear()
@@ -232,15 +91,14 @@ methods: {
                                         .interpolate(d3.interpolateHcl);
                                 for (let i = 0; i < d[joz]["paths"].length; i++) {
                                         let temp_inde = 0
-                                        console.log(d)
+                                        
                                         d[joz]["paths"][i]["details"]["weight_value"].forEach(function(event){
                                                 let dist_seg = d[joz]["paths"][i]["details"]["facilities_overal"][temp_inde]
                                                 weight_range.push(event[2] / Math.round(dist_seg[2].split(" | ")[3]))
-                                                console.log(event[2] / Math.round(dist_seg[2].split(" | ")[3]))
+                                                
                                                 temp_inde++
                                         })
-                                        console.log(d[joz]["paths"][i]["details"]["average_speed"]);
-                                        console.log(d[joz]["paths"][i]["details"]["weight_value"]);
+                                        
                                         d[joz]["paths"][i]["details"]["weight_value"].forEach(function(event){
                                                 let event_from_id = event[0];
                                                 let event_to_id = event[1];
@@ -307,9 +165,6 @@ methods: {
                                                 let tolon = d[joz]["paths"][i]["points"]["coordinates"][event[1]][0]
                                                 let tolat = d[joz]["paths"][i]["points"]["coordinates"][event[1]][1]
                                                 let weight_val = event[2]
-                                                // ancG["geometry"]["coordinates"].push([[fromlon,fromlat],[tolon,tolat]])
-                                                // console.log(Math.round(foevent.split(" | ")[3]))
-                                                // console.log((weight_val / Math.round(foevent.split(" | ")[3])))
                                                 if (foevent.split(" | ")[4] == "low") {
                                                         var c = "green"//"green"
                                                 } else if (foevent.split(" | ")[4] == "high") {
@@ -351,14 +206,8 @@ methods: {
                           }
 
 
-                     
-                                // self.items = dateArr;
-                                // self.dataitems = dataitems;
-                                // self.anchors = anchorArr;
-                                // self.waypoints = waypointArr
                                 let maplayer = {
                                             'id': 'lines',
-                                            'type': 'line',
                                             'type': 'line',
                                             'source': {
                                                 'type': 'geojson',
@@ -410,22 +259,8 @@ methods: {
 },
 mounted(){
             let self = this;
-            let files = [];
-            console.log("self.$el", self.$el)
-            console.log(self)
-            // files.push("")
-            // this.$nextTick(() => {
-                
-                // self.map = new mapboxgl.Map({
-                //     container: self.$el,
-                //     style: 'mapbox://styles/arminavn/cjg2o1xyt08gn2rqocqpyq4k6', //// 'mapbox://styles/arminavn/cjolq7bui0wjm2spp1bfrozbi', //'mapbox://styles/arminavn/cj8xnnjkycd4o2ss9c2rofh9p',
-                //     center: [-71.068964, 42.347643],
-                //     zoom: 14
-                // });
-                // self.getGeoJson()
-
+           
                 self.map.on('style.load', function() {
-                  console.log("sefl",self)
                   self.markers = []
                   self.marker1 = new mapboxgl.Marker({
                         draggable: true
@@ -445,14 +280,12 @@ mounted(){
                   
 
                 })
-                // self.$emit('updateRouting',self.map)
                 
   }   
   }
 </script>
 <style scoped>
-/* body { margin:0; padding:0; }
-#map { position:absolute; top:0; bottom:0; width:100%; } */
+
 
 body {
 overflow: hidden;

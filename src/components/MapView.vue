@@ -24,10 +24,10 @@ export default {
     return {
       // markers: [],
       mode:"isochrone",
-      baseurl:"http://10.10.10.249:8000/isochrone?point=",
+      baseurl:"http://localhost:8989/isochrone?point=",
       apoint:[42.355278,-71.0616],
       secpoint:[42.355978,-71.0816],
-      urlopts:"&vehicle=mapcrider2&buckets=4&time_limit=600" //  distance_limit=4000
+      urlopts:"&vehicle=oppositebike&buckets=4&time_limit=600" //  distance_limit=4000
     }
   },
   computed: {
@@ -43,85 +43,23 @@ export default {
                 return map
     },
     mapMarker: function(){
-      // console.log("inside update mode clicked mapMarker")
-      // let self = this;
-      // let markers = [];
       
-      // // self.map.removeLayer(self.marker)
-      
-      // if (self.$attrs.mode == "isochrone"){
-      //                   let marker1 = new mapboxgl.Marker({
-      //                   draggable: true
-      //               })
-      //                   .setLngLat([self.apoint[1],self.apoint[0]])
-      //                   .addTo(self.map);
-      //               // marker.on('dragend', self.onDragEnd);
-      //               markers.push(marker1)
-                    
-                    
-      // } else if (self.$attrs.mode == "routing"){
-      //   let marker1 = new mapboxgl.Marker({
-      //                   draggable: true
-      //               })
-      //                   .setLngLat([self.apoint[1],self.apoint[0]])
-      //                   //.addTo(self.map);
-      //               // marker.on('dragend', self.onDragEnd);
-      //               markers.push(marker1)
-      //   let marker2 = new mapboxgl.Marker({
-      //       draggable: true
-      //   })
-      //   .setLngLat([self.secpoint[1],self.secpoint[0]])
-      //   markers.push(marker2)
-      // }
-      // // self.markers = markers
-      // return markers
-
     }
   },
-  // watch: {
-  //   'onModeChange': function(){
-  //     alert('active-metrics updated');
-  //   }
-  // },
+
   methods: {
     onModeChange: function(){
       
-      console.log("inside update mode clicked")
+      
       let self = this;
        if (self.$attrs.mode == "isochrone"){{
-         console.log("it snow isochrone so i t was routing? before?")
          
-         self.markers.forEach(mrkr => {
-          //  self.map.removeLayer(mrkr)
-         });
+         
+        //  self.markers.forEach(mrkr => {
+        //   //  self.map.removeLayer(mrkr)
+        //  });
        }
        self.markers = self.mapMarker
-      // let markers = [];
-      // // self.map.removeLayer(self.marker)
-      // if (self.$attrs.mode == "isochrone"){
-      //                   let marker1 = new mapboxgl.Marker({
-      //                   draggable: true
-      //               })
-      //                   .setLngLat([self.apoint[1],self.apoint[0]])
-      //                   //.addTo(self.map);
-      //               // marker.on('dragend', self.onDragEnd);
-      //               markers.push(marker1)
-                    
-      // } else if (self.$attrs.mode == "routing"){
-      //   let marker1 = new mapboxgl.Marker({
-      //                   draggable: true
-      //               })
-      //                   .setLngLat([self.apoint[1],self.apoint[0]])
-      //                   //.addTo(self.map);
-      //               // marker.on('dragend', self.onDragEnd);
-      //               markers.push(marker1)
-      //   let marker2 = new mapboxgl.Marker({
-      //       draggable: true
-      //   })
-      //   .setLngLat([self.secpoint[1],self.secpoint[0]])
-      //   markers.push(marker2)
-      // }
-      // return markers
 }
     },
     onDragEnd: function() {
@@ -130,7 +68,7 @@ export default {
                 let lngLat = self.marker.getLngLat();
                 // coordinates.style.display = 'block';
                 // coordinates.innerHTML = 'Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat;
-                console.log(lngLat.lng.toString(),lngLat.lat.toString())
+                
                 
                 // self.$parent.props.apoint = lngLat
                 // this.currentRoute = this.$route.params.route;
@@ -139,10 +77,6 @@ export default {
             },
     getGeoJson: function(){
       const self = this;
-      // let features = self.map.queryRenderedFeatures({layers:['bucket1']});
-      // this.map.eachLayer(function (layer) {
-      //     this.map.removeLayer(layer);
-      // });
       let mapLayer1 = self.map.getLayer('bucket1');
       if(typeof mapLayer1 !== 'undefined') {
       // Remove map layer & source.
@@ -170,24 +104,18 @@ export default {
       self.map.removeLayer('bucket4')
       self.map.removeSource('bucket4')
       }
-      // let mapLayer5 = self.map.getLayer('bucket5');
-      // if(typeof mapLayer5 !== 'undefined') {
-      // // Remove map layer & source.
-      // self.map.removeLayer('bucket5')
-      // self.map.removeSource('bucket5')
-      // }
       
 
       // console.log(features)
       let urls = []
-      console.log(self)
+      
       urls.push(self.baseurl + this.$parent.pointCoord.lat + "," +  this.$parent.pointCoord.lng + self.urlopts)
       Promise.all(
                         urls.map(
                                 url => d3.json(url)
                         )
                 ).then(function(d) {
-                  console.log("ddd")
+                  
                   
                   self.map.addLayer({
                     'id': 'bucket1',
@@ -255,51 +183,20 @@ export default {
                     }
                     
                   })
-
-
-                  // self.map.addLayer({
-                  //   'id': 'bucket5',
-                  //   'type': 'fill',
-                  //   'source': {
-                  //   'type': 'geojson',
-                  //   'data': d[0].polygons[4]
-                  //   },
-                  //   'layout': {},
-                  //   'paint': {
-                  //   'fill-color': '#424242',
-                  //     'fill-outline-color': '#515151',
-                  //   // 'fill-outline-opacity':  0.5,
-                  //   'fill-opacity': 0.3
-                  //   }
-                    
-                  // })
-
-
                 })
 
 
-      console.log("this data", self)
+      
 
     }
   },
   mounted(){
             let self = this;
-            let files = [];
-            console.log("self.$el", self.$el)
-            console.log(self)
-            // files.push("")
-            // this.$nextTick(() => {
-                
-                // self.map = new mapboxgl.Map({
-                //     container: self.$el,
-                //     style: 'mapbox://styles/arminavn/cjg2o1xyt08gn2rqocqpyq4k6', //// 'mapbox://styles/arminavn/cjolq7bui0wjm2spp1bfrozbi', //'mapbox://styles/arminavn/cj8xnnjkycd4o2ss9c2rofh9p',
-                //     center: [-71.068964, 42.347643],
-                //     zoom: 14
-                // });
-                // self.getGeoJson()
+            
+            
 
                 self.map.on('style.load', function() {
-                  console.log("sefl",self)
+                  
                   self.markers = []
                   if (self.$attrs.mode == "isochrone"){
                         self.marker = new mapboxgl.Marker({
