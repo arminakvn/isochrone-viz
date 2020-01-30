@@ -2,6 +2,8 @@
 	<ul id="buttons">
 <li v-on:click="buttonClicked" id='isochrone' class='button'>isochrone</li>
 <li v-on:click="buttonClicked" id='routing' class='button'>routing</li>
+<!-- <li v-on:click="buttonClicked" id='oppositebike2' class='button'>oppositebike2</li>
+<li v-on:click="buttonClicked" id='bike2' class='button'>bike2</li> -->
 </ul>
 
 </template>

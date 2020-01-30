@@ -27,7 +27,7 @@ export default {
       baseurl:"http://localhost:8989/isochrone?point=",
       apoint:[42.355278,-71.0616],
       secpoint:[42.355978,-71.0816],
-      urlopts:"&vehicle=oppositebike&buckets=4&time_limit=600" //  distance_limit=4000
+      urlopts:"&vehicle=oppositebike2&buckets=4&time_limit=600" //  distance_limit=4000
     }
   },
   computed: {
