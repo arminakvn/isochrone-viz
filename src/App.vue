@@ -8,9 +8,9 @@
           <map-view v-bind:markers="markers" v-bind:map="map" v-bind:mode="modeClik" v-bind:apoint="pointCoord" v-bind:secpoint="destCoord" v-on:updateMarkers="markersUpdated" v-on:updateMap="mapUpdated" v-on:updatePoint="updatePontCoord" v-on:updateDest="updateDestCoord"></map-view>
         </div>
         <div v-else>
-            <routing-view v-bind:fromToPoints="fromTo" v-on:updateFromTo="fromToUpdated"></routing-view>
+            <routing-view ref='routing' v-bind:fromToPoints="fromTo" v-on:updateFromTo="fromToUpdated" v-bind:profileUpdated="profile" v-on:updateProfileinRouting="profileComputed"></routing-view>
         </div>
-        <map-controller v-bind:mode="modeClik" v-on:updateMode="updateModeCliked" v-on:updateMarkers="markersUpdated"></map-controller>
+        <map-controller v-bind:mode="modeClik"  v-on:updateMode="updateModeCliked" v-on:updateMarkers="markersUpdated" v-on:updateProfile="updateProfileCliked" v-bind:profile="profile"></map-controller>
 
 
         </div>
@@ -38,7 +38,7 @@
         //   event: 'updatePoint'
         // },
          data: function(){
-            return {pointCoord:[],modeClik:"isochrone",destCoord:[],map:null,markers:[], fromTo:[]}
+            return {pointCoord:[],modeClik:"routing",destCoord:[],map:null,markers:[], fromTo:[], profile:["lowstressbike2"]}
             },
         computed:{
           pointCoorded: function(){
@@ -58,6 +58,12 @@
           },
           fromToComputed: function(){
             return this.fromTo
+          },
+          profileComputed: function(){
+            // console.log("thhsi",this.$refs)
+            // this.$refs.routing.updateMapWithModeChange()
+            // this.$refs
+            return [this.profile]
           }
 
         },
@@ -69,6 +75,12 @@
           console.log("update my coord",self)
           self.pointCoord = pccord
 
+        },
+        updateProfileCliked: function(prclk){
+
+          console.log("update profilke cliked", prclk)
+          const self = this;
+            self.profile = [prclk]
         },
         updateModeCliked: function(mdclik){
             console.log("dadad",this)
